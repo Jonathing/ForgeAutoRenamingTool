@@ -20,6 +20,7 @@ import org.gradle.api.provider.ProviderFactory;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.bundling.AbstractArchiveTask;
+import org.gradle.api.tasks.bundling.Jar;
 import org.gradle.jvm.toolchain.JavaToolchainService;
 import org.jspecify.annotations.Nullable;
 
@@ -47,52 +48,6 @@ abstract class RenamerExtensionImpl implements RenamerExtensionInternal {
         if (this.container == null)
             throw problems.containerNotYetRegistered(new IllegalStateException("Renamer container not yet registered"));
 
-        return this.container;
-    }
-
-    @Override
-    public RenamerContainer rename(Action<? super RenamerContainer> action) {
-        return null;
-    }
-
-    @Override
-    public RenamerContainer rename(AbstractArchiveTask task, String taskName, Action<? super RenamerContainer> action) {
-        return null;
-    }
-
-    @Override
-    public RenamerContainer rename(TaskProvider<? extends AbstractArchiveTask> task, String taskName, Action<? super RenamerContainer> action) {
-        return null;
-    }
-
-    @Override public RenamerContainer rename(SourceSet sourceSet, Action<? super RenamerContainer> action) {
-        return null;
-    }
-
-    @Override
-    public RenamerContainer rename(Provider<? extends SourceSet> sourceSet, Action<? super RenamerContainer> action) {
-        return this.rename(sourceSet, getProject().getTasks().named(sourceSet.map(SourceSet::getJarTaskName).get(), AbstractArchiveTask.class), action);
-    }
-
-    @Override
-    public RenamerContainer rename(SourceSet sourceSet, AbstractArchiveTask task, String taskName, Action<? super RenamerContainer> action) {
-        return this.rename(getProviders().provider(() -> sourceSet), getProject().getTasks().named(task.getName(), AbstractArchiveTask.class), taskName, action);
-    }
-
-    @Override
-    public RenamerContainer rename(SourceSet sourceSet, TaskProvider<? extends AbstractArchiveTask> task, String taskName, Action<? super RenamerContainer> action) {
-        return this.rename(getProviders().provider(() -> sourceSet), task, taskName, action);
-    }
-
-    @Override
-    public RenamerContainer rename(Provider<? extends SourceSet> sourceSet, AbstractArchiveTask task, String taskName, Action<? super RenamerContainer> action) {
-        return this.rename(sourceSet, getProject().getTasks().named(task.getName(), AbstractArchiveTask.class), taskName, action);
-    }
-
-    @Override
-    public RenamerContainer rename(Provider<? extends SourceSet> sourceSet, TaskProvider<? extends AbstractArchiveTask> task, String taskName, Action<? super RenamerContainer> action) {
-        this.container = getObjects().newInstance(RenamerContainerImpl.class, sourceSet, task, taskName);
-        action.execute(this.container);
         return this.container;
     }
 }
