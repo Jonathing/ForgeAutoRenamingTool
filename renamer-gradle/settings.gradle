@@ -12,7 +12,7 @@ gradle.beforeProject { Project project ->
         project.repositories {
             mavenCentral()
             maven project.gradleutils.forgeMaven
-            //mavenLocal()
+            mavenLocal()
         }
     }
 }
@@ -37,6 +37,6 @@ dependencyResolutionManagement.versionCatalogs.register('libs') {
     library 'gradle', 'name.remal.gradle-api', 'gradle-api'  versionRef 'gradle'
 
     // GradleUtils Shared Base
-    library 'gradleutils-shared', 'net.minecraftforge', 'gradleutils-shared' versionRef 'gradleutils'
+    library 'gradleutils-shared', 'net.minecraftforge', 'gradleutils-shared' version '3.4.0'
 }
 //@formatter:on
