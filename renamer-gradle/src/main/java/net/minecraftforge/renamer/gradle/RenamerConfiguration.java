@@ -1,0 +1,16 @@
+package net.minecraftforge.renamer.gradle;
+
+import org.gradle.api.Action;
+import org.gradle.api.file.FileCollection;
+import org.gradle.api.tasks.TaskProvider;
+import org.gradle.api.tasks.bundling.AbstractArchiveTask;
+
+public interface RenamerConfiguration {
+    void setInput(TaskProvider<? extends AbstractArchiveTask> input);
+
+    void setInput(AbstractArchiveTask task);
+
+    void setClasspath(FileCollection classpath);
+
+    void archive(Action<? super AbstractArchiveTask> action);
+}

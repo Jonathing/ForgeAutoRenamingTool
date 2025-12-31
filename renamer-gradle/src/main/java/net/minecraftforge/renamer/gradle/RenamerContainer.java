@@ -1,10 +1,12 @@
 package net.minecraftforge.renamer.gradle;
 
+import org.gradle.api.Action;
 import org.gradle.api.Task;
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.provider.ProviderConvertible;
 import org.gradle.api.tasks.TaskProvider;
+import org.gradle.api.tasks.bundling.AbstractArchiveTask;
 
 public interface RenamerContainer {
     default void mappings(String channel, String version) {
@@ -21,5 +23,27 @@ public interface RenamerContainer {
         this.mappings(dependency.asProvider());
     }
 
-    TaskProvider<? extends Task> getJarTask();
+    void classes(Action<? super RenamerConfiguration> action);
+
+    default void classes(AbstractArchiveTask input) {
+        this.classes(it -> it.setInput(input));
+    }
+
+    default void classes(AbstractArchiveTask input, Action<? super RenamerConfiguration> action) {
+        this.classes(it -> {
+            action.execute(it);
+            it.setInput(input);
+        });
+    }
+
+    default void classes(TaskProvider<? extends AbstractArchiveTask> input) {
+        this.classes(it -> it.setInput(input));
+    }
+
+    default void classes(TaskProvider<? extends AbstractArchiveTask> input, Action<? super RenamerConfiguration> action) {
+        this.classes(it -> {
+            action.execute(it);
+            it.setInput(input);
+        });
+    }
 }
