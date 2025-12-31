@@ -22,6 +22,7 @@ import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.bundling.AbstractArchiveTask;
 import org.gradle.api.tasks.bundling.Jar;
 import org.gradle.jvm.toolchain.JavaToolchainService;
+import org.jspecify.annotations.NullUnmarked;
 import org.jspecify.annotations.Nullable;
 
 import java.io.File;
@@ -34,20 +35,36 @@ abstract class RenamerExtensionImpl implements RenamerExtensionInternal {
     private final RenamerProblems problems = getObjects().newInstance(RenamerProblems.class);
 
     protected abstract @Inject Project getProject();
+
     protected abstract @Inject ObjectFactory getObjects();
-    protected abstract @Inject ProviderFactory getProviders();
 
     private @Nullable RenamerContainerInternal container;
 
     @Inject
-    public RenamerExtensionImpl() {
-    }
+    public RenamerExtensionImpl() { }
 
     @Override
     public RenamerContainerInternal getContainer() {
         if (this.container == null)
             throw problems.containerNotYetRegistered(new IllegalStateException("Renamer container not yet registered"));
 
+        return this.container;
+    }
+
+    @Override
+    public RenamerContainer register(String name, Action<? super RenamerContainer> action) {
+        return this.register(
+            getProject().getExtensions().getByType(JavaPluginExtension.class).getSourceSets().named(SourceSet.MAIN_SOURCE_SET_NAME),
+            name,
+            action
+        );
+    }
+
+    @Override
+    @NullUnmarked
+    public RenamerContainer register(SourceSet sourceSet, String name, Action<? super RenamerContainer> action) {
+        this.container = getObjects().newInstance(RenamerContainerImpl.class, sourceSet, name);
+        action.execute(this.container);
         return this.container;
     }
 }

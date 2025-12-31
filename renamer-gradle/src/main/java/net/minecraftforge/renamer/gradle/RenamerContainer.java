@@ -1,14 +1,15 @@
 package net.minecraftforge.renamer.gradle;
 
 import org.gradle.api.Action;
-import org.gradle.api.Task;
+import org.gradle.api.Named;
 import org.gradle.api.artifacts.Dependency;
+import org.gradle.api.file.FileCollection;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.provider.ProviderConvertible;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.bundling.AbstractArchiveTask;
 
-public interface RenamerContainer {
+public interface RenamerContainer extends Named {
     default void mappings(String channel, String version) {
         mappings("net.minecraft:mappings_" + channel + ':' + version + "@tsrg.gz");
     }
@@ -22,6 +23,8 @@ public interface RenamerContainer {
     default void mappings(ProviderConvertible<? extends Dependency> dependency) {
         this.mappings(dependency.asProvider());
     }
+
+    void setMappings(FileCollection files);
 
     void classes(Action<? super RenamerConfiguration> action);
 

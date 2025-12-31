@@ -5,6 +5,7 @@ import org.gradle.api.Project;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.bundling.AbstractArchiveTask;
+import org.gradle.api.tasks.bundling.Jar;
 import org.jspecify.annotations.Nullable;
 
 import javax.inject.Inject;
@@ -12,7 +13,7 @@ import javax.inject.Inject;
 abstract class RenamerConfigurationImpl implements RenamerConfigurationInternal {
     private @Nullable TaskProvider<? extends AbstractArchiveTask> input;
     private @Nullable FileCollection classpath;
-    private @Nullable Action<? super AbstractArchiveTask> action;
+    private @Nullable Action<? super Jar> action;
 
     protected abstract @Inject Project getProject();
 
@@ -30,7 +31,7 @@ abstract class RenamerConfigurationImpl implements RenamerConfigurationInternal 
     }
 
     @Override
-    public @Nullable Action<? super AbstractArchiveTask> getAction() {
+    public @Nullable Action<? super Jar> getAction() {
         return this.action;
     }
 
@@ -50,7 +51,7 @@ abstract class RenamerConfigurationImpl implements RenamerConfigurationInternal 
     }
 
     @Override
-    public void archive(Action<? super AbstractArchiveTask> action) {
+    public void archive(Action<? super Jar> action) {
         this.action = action;
     }
 }

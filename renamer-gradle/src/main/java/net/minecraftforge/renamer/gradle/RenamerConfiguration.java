@@ -4,6 +4,7 @@ import org.gradle.api.Action;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.bundling.AbstractArchiveTask;
+import org.gradle.api.tasks.bundling.Jar;
 
 public interface RenamerConfiguration {
     void setInput(TaskProvider<? extends AbstractArchiveTask> input);
@@ -12,5 +13,5 @@ public interface RenamerConfiguration {
 
     void setClasspath(FileCollection classpath);
 
-    void archive(Action<? super AbstractArchiveTask> action);
+    void archive(Action<? super Jar> action);
 }

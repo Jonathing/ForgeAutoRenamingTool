@@ -5,6 +5,7 @@ import org.gradle.api.Action;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.bundling.AbstractArchiveTask;
+import org.gradle.api.tasks.bundling.Jar;
 import org.jspecify.annotations.Nullable;
 
 interface RenamerConfigurationInternal extends RenamerConfiguration {
@@ -12,5 +13,5 @@ interface RenamerConfigurationInternal extends RenamerConfiguration {
 
     @Nullable FileCollection getClasspath();
 
-    @Nullable Action<? super AbstractArchiveTask> getAction();
+    @Nullable Action<? super Jar> getAction();
 }

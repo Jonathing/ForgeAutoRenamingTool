@@ -9,4 +9,12 @@ interface RenamerContainerInternal extends RenamerContainer, HasPublicType {
     default TypeOf<?> getPublicType() {
         return TypeOf.typeOf(RenamerContainer.class);
     }
+
+    default String getApiElementsConfigurationName() {
+        return this.getName() + "ApiElements";
+    }
+
+    default String getRuntimeElementsConfigurationName() {
+        return this.getName() + "RuntimeElements";
+    }
 }

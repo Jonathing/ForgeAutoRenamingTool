@@ -6,7 +6,7 @@ plugins {
 rootProject.name = 'ForgeAutoRenamingTool'
 
 includeBuild 'renamer-gradle'
-//includeBuild 'renamer-gradle-demo'
+includeBuild 'renamer-gradle-demo'
 
 // Applying plugins causes them to not have any IDE support when also applied to any build.gradle files
 // The workaround for now is to use this listener here so that it can stay in settings.gradle

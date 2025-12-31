@@ -4,13 +4,14 @@
  */
 package net.minecraftforge.renamer.gradle.internal;
 
+import net.minecraftforge.renamer.gradle.RenamerConfiguration;
 import net.minecraftforge.renamer.gradle.RenamerExtension;
-import org.gradle.api.Task;
+import org.gradle.api.Action;
 import org.gradle.api.artifacts.Dependency;
+import org.gradle.api.file.FileCollection;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.reflect.HasPublicType;
 import org.gradle.api.reflect.TypeOf;
-import org.gradle.api.tasks.TaskProvider;
 
 interface RenamerExtensionInternal extends RenamerExtension, HasPublicType {
     @Override
@@ -21,11 +22,6 @@ interface RenamerExtensionInternal extends RenamerExtension, HasPublicType {
     /* CONTAINER PROXY */
 
     RenamerContainerInternal getContainer();
-
-    @Override
-    default TaskProvider<? extends Task> getJarTask() {
-        return this.getContainer().getJarTask();
-    }
 
     @Override
     default void mappings(String artifact) {
@@ -40,5 +36,20 @@ interface RenamerExtensionInternal extends RenamerExtension, HasPublicType {
     @Override
     default void mappings(Provider<? extends Dependency> dependency) {
         this.getContainer().mappings(dependency);
+    }
+
+    @Override
+    default void setMappings(FileCollection files) {
+        this.getContainer().setMappings(files);
+    }
+
+    @Override
+    default void classes(Action<? super RenamerConfiguration> action) {
+        this.getContainer().classes(action);
+    }
+
+    @Override
+    default String getName() {
+        return this.getContainer().getName();
     }
 }
