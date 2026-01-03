@@ -1,4 +1,4 @@
-package net.minecraftforge.renamer.gradle.internal;
+package net.minecraftforge.renamer.gradle;
 
 import net.minecraftforge.gradleutils.shared.SharedUtil;
 import org.gradle.api.Project;
